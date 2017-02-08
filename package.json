@@ -1,0 +1,27 @@
+{
+  "name": "hubot-slack-reading-list",
+  "version": "1.0.0",
+  "description": "Build a reading list from emojied reactions on Slack",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [
+    "hubot",
+    "slack",
+    "reading",
+    "list",
+    "reaction",
+    "emoji"
+  ],
+  "author": "Greg Walker <hubot-slack-reading-list@darkcooger.net>",
+  "license": "ISC",
+  "peerDependencies": {
+    "hubot": "^2.19.0",
+    "hubot-slack": "^4.2.1"
+  },
+  "engines": {
+    "node": ">=5.12"
+  },
+  "dependencies": {
+    "open-graph-scraper": "^2.4.2"
+  }
+}
