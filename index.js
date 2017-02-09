@@ -1,4 +1,4 @@
-const fs = require('fs');
+require('dotenv').config()
 
 const brain = require('./brain');
 const commands = require('./commands');
