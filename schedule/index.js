@@ -3,17 +3,17 @@ process.env.REPORT_TIME = process.env.REPORT_TIME || '4:00 pm';
 
 const moment = require('moment-timezone');
 
-function getBitsFromMoment(momentTime) {
+function getBitsFromMoment(momentTime = moment()) {
   return JSON.parse(`[${moment.utc(momentTime).format('H,m,s')}]`);
 }
 
 function getLocalTime(time) {
-  return moment.tz(time, 'h:mm a', process.env.TIMEZONE);
+  return moment.tz(process.env.REPORT_TIME, 'h:mm a', process.env.TIMEZONE);
 }
 
 function getTimeUntilNextPostCheck() {
-  const [ targetHour, targetMinute ] = getBitsFromMoment(getLocalTime(process.env.REPORT_TIME));
-  const [ nowHour, nowMinute, nowSecond ] = getBitsFromMoment(moment.utc());
+  const [ targetHour, targetMinute ] = getBitsFromMoment(getLocalTime());
+  const [ nowHour, nowMinute, nowSecond ] = getBitsFromMoment();
 
   const targetTime = ((targetHour * 60 * 60) + (targetMinute * 60)) * 1000;
   const nowTime = ((nowHour * 60 * 60) + (nowMinute * 60) + nowSecond) * 1000;
