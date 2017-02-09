@@ -1,4 +1,4 @@
-const brain = require('./brain');
+const brain = require('../brain');
 
 function isFriday(dayOfWeek) {
   return (dayOfWeek === 5);

@@ -4,7 +4,7 @@ const brain = require('./brain');
 const commands = require('./commands');
 const reaction = require('./reaction');
 const schedule = require('./schedule');
-const postLists = require('./postLists');
+const postLists = require('./post');
 
 module.exports = robot => {
   if(robot.adapter.constructor.name !== 'SlackBot') {
