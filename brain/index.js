@@ -1,5 +1,12 @@
 let _robot;
 
+function getReadingLists() {
+  if (_robot) {
+    return _robot.brain.readingLists;
+  }
+  return [ ];
+}
+
 function readingListExists(listName) {
   if (_robot) {
     return _robot.brain.readingLists.some(list => list.name === listName)
@@ -70,6 +77,7 @@ module.exports = {
     }
   },
 
+  getReadingLists,
   readingListExists,
   saveReadingList,
   getReadingListsForChannel,
