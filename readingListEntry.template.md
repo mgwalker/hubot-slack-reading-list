@@ -1,7 +1,7 @@
 ## {{ title }}
 > Posted by {{ user }} in {{ channel }}
 
-> {{ url }}
+[{{& url }}]({{& url }})
 
 {{ description }}
 
