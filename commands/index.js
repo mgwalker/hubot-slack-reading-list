@@ -3,5 +3,8 @@ module.exports = robot => {
   const gimme = require('./gimme')(robot);
 
   robot.respond(readingList.respondTo, readingList.handler);
-  robot.respond(gimme.respondTo, gimme.handler);
+
+  // Enable this command just for debugging.  It will cause the
+  // reading list for the channel to be posted immediately.
+  // robot.respond(gimme.respondTo, gimme.handler);
 };
