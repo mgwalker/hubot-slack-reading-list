@@ -1,5 +1,4 @@
 'use strict';
-
 module.exports = function(o) {
   // Loop over all the reading lists that this message
   // should be added to, and add the rendered markdown

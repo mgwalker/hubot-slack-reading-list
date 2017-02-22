@@ -1,3 +1,4 @@
+'use strict';
 process.env.TIMEZONE = process.env.TIMEZONE || 'America/New_York';
 process.env.REPORT_TIME = process.env.REPORT_TIME || '4:00 pm';
 

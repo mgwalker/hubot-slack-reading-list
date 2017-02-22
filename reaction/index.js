@@ -1,3 +1,4 @@
+'use strict';
 const addToReadingList = require('./addToReadingList');
 const getMarkdown = require('./getMarkdown');
 const getMessageURLs = require('./getMessageURLs');

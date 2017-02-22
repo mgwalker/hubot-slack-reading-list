@@ -1,3 +1,4 @@
+'use strict';
 module.exports = robot => {
   const readingList = require('./readingList');
   const gimme = require('./gimme')(robot);

@@ -1,3 +1,4 @@
+'use strict';
 function responseIsOkay(err, response) {
   return (!err && response && response.ok && response.messages && response.messages.length > 0);
 }

@@ -1,3 +1,4 @@
+'use strict';
 const brain = require('../brain');
 
 function isFriday(dayOfWeek) {
