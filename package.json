@@ -1,6 +1,6 @@
 {
   "name": "hubot-slack-reading-list",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Build a reading list from emojied reactions on Slack",
   "main": "index.js",
   "scripts": {},
