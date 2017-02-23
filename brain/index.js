@@ -10,7 +10,7 @@ function getReadingLists() {
 
 function readingListExists(listName) {
   if (_robot) {
-    return _robot.brain.readingLists.some(list => list.name === listName)
+    return _robot.brain.readingLists.some(list => list.name.toLowerCase() === listName.toLowerCase())
   }
   return false;
 }
@@ -18,7 +18,7 @@ function readingListExists(listName) {
 function getReadingListIndex(listName) {
   if (_robot) {
     if (readingListExists(listName)) {
-      return _robot.brain.readingLists.findIndex(list => list.name === listName);
+      return _robot.brain.readingLists.findIndex(list => list.name.toLowerCase() === listName.toLowerCase());
     }
   }
   return false;
@@ -42,7 +42,7 @@ function getReadingListsForChannel(channel) {
 
 function getReadingListsForChannelAndEmoji(channel, emoji) {
   if (_robot) {
-    return getReadingListsForChannel(channel).filter(list => list.emoji === emoji);
+    return getReadingListsForChannel(channel).filter(list => list.emoji.toLowerCase() === emoji.toLowerCase());
   }
   return [ ];
 }
