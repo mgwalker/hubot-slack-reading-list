@@ -3,14 +3,14 @@ let _robot;
 
 function getReadingLists() {
   if (_robot) {
-    return _robot.brain.readingLists;
+    return _robot.brain.get('readingLists') || [ ];
   }
   return [ ];
 }
 
 function readingListExists(listName) {
   if (_robot) {
-    return _robot.brain.readingLists.some(list => list.name.toLowerCase() === listName.toLowerCase())
+    return getReadingLists().some(list => list.name.toLowerCase() === listName.toLowerCase())
   }
   return false;
 }
@@ -18,7 +18,7 @@ function readingListExists(listName) {
 function getReadingListIndex(listName) {
   if (_robot) {
     if (readingListExists(listName)) {
-      return _robot.brain.readingLists.findIndex(list => list.name.toLowerCase() === listName.toLowerCase());
+      return getReadingLists().findIndex(list => list.name.toLowerCase() === listName.toLowerCase());
     }
   }
   return false;
@@ -27,7 +27,7 @@ function getReadingListIndex(listName) {
 function getReadingList(listName) {
   if (_robot) {
     if (readingListExists(listName)) {
-      return _robot.brain.readingLists[getReadingListIndex(listName)];
+      return getReadingLists()[getReadingListIndex(listName)];
     }
   }
   return false;
@@ -35,7 +35,7 @@ function getReadingList(listName) {
 
 function getReadingListsForChannel(channel) {
   if (_robot) {
-    return _robot.brain.readingLists.filter(list => list.channels.indexOf(channel) >= 0);
+    return getReadingLists().filter(list => list.channels.indexOf(channel) >= 0);
   }
   return [ ];
 }
@@ -53,29 +53,28 @@ function listHasChannel(list, channel) {
 
 function saveReadingList(list) {
   if (_robot) {
+    const lists = getReadingLists();
     if (readingListExists(list.name)) {
       const listIndex = getReadingListIndex(list.name);
-      const existingList = _robot.brain.readingLists[listIndex];
+      const existingList = lists[listIndex];
 
       if (!listHasChannel(existingList, list.channels[0])) {
         existingList.channels.push(list.channels[0]);
       }
-      _robot.brain.readingLists[listIndex] = existingList;
+      lists[listIndex] = existingList;
       _robot.messageRoom(list.channels[0], `Okay, I added this channel to the "${list.name}" reading list! Add the :${existingList.emoji}: reaction to a message to add it to the reading list.`)
     } else {
-      _robot.brain.readingLists.push(list);
+      lists.push(list);
       _robot.messageRoom(list.channels[0], `Okay, I created the "${list.name}" reading list! Add the :${list.emoji}: reaction to a message to add it to the reading list.`)
     }
+    _robot.brain.set('readingLists', lists);
+    _robot.brain.save();
   }
 }
 
 module.exports = {
   setRobot(robot) {
     _robot = robot;
-
-    if(!_robot.brain.readingLists) {
-      _robot.brain.readingLists = [ ];
-    }
   },
 
   getReadingLists,
