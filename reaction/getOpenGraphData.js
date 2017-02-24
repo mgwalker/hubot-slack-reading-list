@@ -1,16 +1,16 @@
-'use strict';
+
 const openGraph = require('open-graph-scraper');
 
 function cleanGraph(graph, defaults = { url: '' }) {
   if (!graph.ogUrl) {
-    graph.ogUrl = defaults.url;
+    graph.ogUrl = defaults.url; // eslint-disable-line no-param-reassign
   }
 }
 
-function getOpenGraphData(url) {
-  return new Promise(resolve => {
+function fetchOpenGraphData(url) {
+  return new Promise((resolve) => {
     openGraph({ url }, (err, graph) => {
-      if(!err) {
+      if (!err) {
         cleanGraph(graph.data, { url });
         resolve(graph.data);
       }
@@ -19,18 +19,19 @@ function getOpenGraphData(url) {
   });
 }
 
-module.exports = function(o) {
-  return new Promise(resolve => {
-    const awaiting = [ ];
+module.exports = function getOpenGraphData(o) {
+  return new Promise((resolve) => {
+    const awaiting = [];
 
-    for(let url of o.urls) {
-      awaiting.push(getOpenGraphData(url));
+    for (const url of o.urls) {
+      awaiting.push(fetchOpenGraphData(url));
     }
 
-    Promise.all(awaiting).then(graphs => {
+    Promise.all(awaiting).then((graphs) => {
       // Only keep graphs that are defined
-      o.openGraph = graphs.filter(graph => graph);
-      resolve(o);
+      const out = o;
+      out.openGraph = graphs.filter(graph => graph);
+      resolve(out);
     });
   });
 };

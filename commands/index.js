@@ -1,10 +1,8 @@
-'use strict';
-module.exports = robot => {
-  const readingList = require('./readingList');
-  const info = require('./readingListInfo');
-  const leaveReadingList = require('./leaveReadingList');
-  const gimme = require('./gimme')(robot);
+const readingList = require('./readingList');
+const info = require('./readingListInfo');
+const leaveReadingList = require('./leaveReadingList');
 
+module.exports = (robot) => {
   robot.respond(info.listInfo.respondTo, info.listInfo.handler);
   robot.respond(info.channelInfo.respondTo, info.channelInfo.handler);
   robot.respond(readingList.respondTo, readingList.handler);
@@ -12,5 +10,6 @@ module.exports = robot => {
 
   // Enable this command just for debugging.  It will cause the
   // reading list for the channel to be posted immediately.
+  // const gimme = require('./gimme')(robot);
   // robot.respond(gimme.respondTo, gimme.handler);
 };

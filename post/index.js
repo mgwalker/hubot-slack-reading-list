@@ -1,12 +1,11 @@
-'use strict';
 const brain = require('../brain');
 
 function isFriday(dayOfWeek) {
   return (dayOfWeek === 5);
 }
 
-module.exports = function(robot) {
-  const postReadingList = list => {
+module.exports = function getFunctionThatPosts(robot) {
+  const postReadingList = (list) => {
     const md = list.markdown.join('\n-----\n');
 
     robot.adapter.client.web.files.upload(`${list.name}.md`, {
@@ -17,7 +16,7 @@ module.exports = function(robot) {
     });
   };
 
-  return dayOfWeek => {
+  return (dayOfWeek) => {
     let readingLists = brain.getReadingLists();
 
     if (!isFriday(dayOfWeek)) {
@@ -26,7 +25,7 @@ module.exports = function(robot) {
       readingLists = readingLists.filter(list => list.frequency === 'daily');
     }
 
-    for(let list of readingLists) {
+    for (const list of readingLists) {
       postReadingList(list);
     }
   };

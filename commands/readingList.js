@@ -1,10 +1,10 @@
-'use strict';
+
 const brain = require('../brain');
 
 module.exports = {
   respondTo: /((daily|weekly)\s+)?reading list( :(.+):)? (.+)/i,
   handler(msg) {
-    let [ , , dailyOrWeekly, , emoji, listName ] = msg.match;
+    let [, , dailyOrWeekly, , emoji, listName] = msg.match; // eslint-disable-line prefer-const
     if (listName.toLowerCase().startsWith('info ')) {
       return;
     }
@@ -17,7 +17,7 @@ module.exports = {
     }
 
     brain.saveReadingList({
-      channels: [ msg.envelope.room ],
+      channels: [msg.envelope.room],
       frequency: dailyOrWeekly,
       name: listName,
       emoji,

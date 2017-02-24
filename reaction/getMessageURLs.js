@@ -1,4 +1,4 @@
-'use strict';
+
 function responseIsOkay(err, response) {
   return (!err && response && response.ok && response.messages && response.messages.length > 0);
 }
@@ -17,20 +17,21 @@ function getSlackMessage(o, channel, timestamp) {
       } else {
         reject();
       }
-    })
+    });
   });
 }
 
-module.exports = function(o) {
-  return new Promise((resolve, reject) => {
+module.exports = function getMessageURLs(o) {
+  return new Promise((resolve) => {
     getSlackMessage(o, o.response.message.item.channel, o.response.message.item.ts)
-      .then(response => {
+      .then((response) => {
         const message = response.messages[0].text;
 
         // Take advantage of the fact that Slack puts URLs inside
         // angle brackets to extract them with this regex.
-        o.urls = message.match(/https?:\/\/[^>]+/g) || [ ];
-        resolve(o);
+        const out = o;
+        out.urls = message.match(/https?:\/\/[^>]+/g) || [];
+        resolve(out);
       });
   });
 };

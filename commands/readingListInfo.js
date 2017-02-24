@@ -1,4 +1,4 @@
-'use strict';
+
 const brain = require('../brain');
 
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
   listInfo: {
     respondTo: /reading list info (.+)/i,
     handler(msg) {
-      const [ , listName ] = msg.match;
+      const [, listName] = msg.match;
 
       brain.getReadingListInfo(listName, msg.envelope.room);
     }

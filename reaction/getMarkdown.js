@@ -1,5 +1,3 @@
-'use strict';
-const fs = require('fs');
 const path = require('path');
 const url = require('url');
 
@@ -20,16 +18,16 @@ function hasTwitterCardImage(og) {
   return (og.twitterImage && og.twitterImage.url);
 }
 
-function urlStartsWithRelativeProtocol(url) {
+function urlStartsWithRelativeProtocol(urlToCheck) {
   // A URL starts with a relative protocol if the protocol
   // is omitted, so the string starts with //.
-  return (url && url.startsWith('//'));
+  return (urlToCheck && urlToCheck.startsWith('//'));
 }
 
-function urlIsRelativeToHost(url) {
+function urlIsRelativeToHost(urlToCheck) {
   // A URL is relative to the host if it begins with
   // a single slash and then a path.
-  return (url && /^\/[^\/]/.test(url));
+  return (urlToCheck && /^\/[^/]/.test(urlToCheck));
 }
 
 function getImageUrl(og) {
@@ -37,13 +35,13 @@ function getImageUrl(og) {
 
   if (hasOpenGraphImage(og)) {
     imageUrl = og.ogImage.url;
-  } else if(hasTwitterCardImage(og)) {
+  } else if (hasTwitterCardImage(og)) {
     imageUrl = og.twitterImage.url;
   }
 
   if (urlStartsWithRelativeProtocol(imageUrl)) {
     imageUrl = `https:${imageUrl}`;
-  } else if(urlIsRelativeToHost(imageUrl)) {
+  } else if (urlIsRelativeToHost(imageUrl)) {
     const urlInfo = url.parse(og.ogUrl);
     imageUrl = `${urlInfo.protocol}//${urlInfo.hostname}${imageUrl}`;
   }
@@ -51,12 +49,13 @@ function getImageUrl(og) {
   return imageUrl;
 }
 
-module.exports = function(o) {
+module.exports = function getMarkdown(o) {
+  const out = o;
   const message = o.response.message;
 
-  o.markdown = [ ];
+  out.markdown = [];
 
-  for(let og of o.openGraph) {
+  for (const og of o.openGraph) {
     const markdownModel = {
       title: og.ogTitle || og.twitterTitle,
       user: message.user.real_name || message.user.name,
@@ -67,8 +66,8 @@ module.exports = function(o) {
     };
 
     const markdown = mustache.render(template, markdownModel);
-    o.markdown.push(markdown);
+    out.markdown.push(markdown);
   }
 
-  return Promise.resolve(o);
+  return Promise.resolve(out);
 };
