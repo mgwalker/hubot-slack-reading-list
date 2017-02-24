@@ -3,7 +3,7 @@ const url = require('url');
 
 const mustache = require('mustache');
 
-const templatePath = path.join(__dirname, '..', 'readingListEntry.template.md');
+const templatePath = path.join(__dirname, 'readingListEntry.mustache');
 const template = require('fs').readFileSync(templatePath, { encoding: 'utf8' });
 
 function getChannelName(o, channel) {
