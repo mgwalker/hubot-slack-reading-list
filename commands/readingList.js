@@ -5,6 +5,10 @@ module.exports = {
   respondTo: /((daily|weekly)\s+)?reading list( :(.+):)? (.+)/i,
   handler(msg) {
     let [ , , dailyOrWeekly, , emoji, listName ] = msg.match;
+    if (listName.toLowerCase().startsWith('info ')) {
+      return;
+    }
+
     if (!dailyOrWeekly) {
       dailyOrWeekly = 'weekly';
     }

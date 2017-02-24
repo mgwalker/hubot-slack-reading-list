@@ -37,6 +37,15 @@ function getReadingListsForChannelAndEmoji(channel, emoji) {
   return getReadingListsForChannel(channel).filter(list => list.emoji.toLowerCase() === emoji.toLowerCase());
 }
 
+function getReadingListInfo(listName, channel) {
+  const list = getReadingList(listName);
+  if (list) {
+    _robot.messageRoom(channel, `The "${listName}" reading list is using :${list.emoji}: to tag posts, is listening in ${list.channels.map(c => `<#${c}>`).join(', ') }, and posts ${list.frequency} to <#${list.channels[0]}>`);
+  } else {
+    _robot.messageRoom(channel, `:thinking_face: I don't know of a "${listName}" reading list`);
+  }
+}
+
 function listHasChannel(list, channel) {
   return (list.channels.indexOf(channel) >= 0);
 }
@@ -50,6 +59,12 @@ function removeChannelFromList(listName, channel) {
       lists[listIndex].channels.splice(channelIndex, 1);
       _robot.brain.set('readingLists', lists);
       _robot.messageRoom(channel, `Okay, I've removed this channel from the "${listName}" reading list`);
+
+      if (lists[listIndex].channels.length === 0) {
+        lists.splice(listIndex, 1);
+        _robot.brain.set('readingLists', lists);
+        _robot.messageRoom(channel, `The "${listName}" reading list is now empty and will be deleted :wave:"`);
+      }
     } else {
       _robot.messageRoom(channel, `Okay, this channel is not in the "${listName}" reading list`);
     }
@@ -88,5 +103,6 @@ module.exports = {
   saveReadingList,
   getReadingListsForChannel,
   getReadingListsForChannelAndEmoji,
+  getReadingListInfo,
   removeChannelFromList
 };
