@@ -4,7 +4,8 @@
   "description": "Build a reading list from emojied reactions on Slack",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint --fix *.js brain/*.js commands/*.js post/*.js reaction/*.js schedule/*.js"
+    "lint": "eslint --fix *.js brain/*.js commands/*.js post/*.js reaction/*.js schedule/*.js",
+    "test": "istanbul cover tape -- test/*.js | tap-spec"
   },
   "keywords": [
     "hubot",
@@ -36,6 +37,11 @@
   "devDependencies": {
     "eslint": "^3.16.1",
     "eslint-config-airbnb-base": "^11.1.0",
-    "eslint-plugin-import": "^2.2.0"
+    "eslint-plugin-import": "^2.2.0",
+    "istanbul": "^0.4.5",
+    "sinon": "^1.17.7",
+    "tap": "^10.2.1",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.3"
   }
 }
