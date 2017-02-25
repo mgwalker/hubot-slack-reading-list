@@ -1,4 +1,3 @@
-'use strict';
 process.env.TIMEZONE = process.env.TIMEZONE || 'America/New_York';
 process.env.REPORT_TIME = process.env.REPORT_TIME || '4:00 pm';
 
@@ -8,13 +7,13 @@ function getBitsFromMoment(momentTime = moment()) {
   return JSON.parse(`[${moment.utc(momentTime).format('H,m,s')}]`);
 }
 
-function getLocalTime(time) {
+function getLocalTime() {
   return moment.tz(process.env.REPORT_TIME, 'h:mm a', process.env.TIMEZONE);
 }
 
 function getTimeUntilNextPostCheck() {
-  const [ targetHour, targetMinute ] = getBitsFromMoment(getLocalTime());
-  const [ nowHour, nowMinute, nowSecond ] = getBitsFromMoment();
+  const [targetHour, targetMinute] = getBitsFromMoment(getLocalTime());
+  const [nowHour, nowMinute, nowSecond] = getBitsFromMoment();
 
   const targetTime = ((targetHour * 60 * 60) + (targetMinute * 60)) * 1000;
   const nowTime = ((nowHour * 60 * 60) + (nowMinute * 60) + nowSecond) * 1000;
@@ -42,10 +41,12 @@ function isWeekday() {
   return (dow > 0 && dow < 6);
 }
 
-module.exports = function(callback) {
+module.exports = function scheduler(callback) {
   const timeoutHandler = () => {
-    callback(getDayOfWeek());
+    if (isWeekday) {
+      callback(getDayOfWeek());
+    }
     setTimeout(timeoutHandler, getTimeUntilNextPostCheck());
   };
   setTimeout(timeoutHandler, getTimeUntilNextPostCheck());
-}
+};
